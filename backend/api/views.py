@@ -7,16 +7,17 @@ import os
 # Load dataset once
 DATA_PATH = settings.EXCEL_FILE_PATH
 df = pd.read_excel(DATA_PATH)
-
+df["final location"] = df["final location"].str.lower()
 @api_view(["GET"])
 def analyze_area(request):
     try:
-        area = request.GET.get("area")
+        area = request.GET.get("area").lower()
+        print(area)
         if not area:
             return Response({"error": "area parameter is required"}, status=400)
 
         # Filter area
-        filtered = df[df["final location"].str.lower() == area.lower()]
+        filtered = df[df["final location"].str.lower() == area]
 
         if filtered.empty:
             return Response({"error": "Area not found in dataset"}, status=404)
@@ -29,12 +30,17 @@ def analyze_area(request):
 
         # Summary (mock)
         summary = f"{area} has {len(filtered)} data records. Prices and demand trending extracted successfully."
+        table = (
+        filtered
+        .replace([float('nan'), float('inf'), float('-inf')], None)
+        .to_dict(orient="records")
+)
 
         return Response({
             "summary": summary,
             "price_trend": price_trend.to_dict(orient="records"),
             "demand_trend": demand_trend.to_dict(orient="records"),
-            "table": filtered.to_dict(orient="records")
+            "table": table
         })
 
     except Exception as e:

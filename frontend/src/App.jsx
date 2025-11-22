@@ -20,7 +20,7 @@ function App() {
   const handleAnalyze = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/analyze/?area=" + query
+        "http://localhost:8000/api/analyze/?area=" + encodeURIComponent(query)
       );
       const result = await response.json();
 
@@ -43,6 +43,7 @@ function App() {
       setSummary("");
       setPt([]);
       setDemand([]);
+      setTableData([]);
     }
   };
 
