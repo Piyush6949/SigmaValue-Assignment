@@ -96,3 +96,94 @@ Response includes:
 This data will be used by the frontend to generate charts and tables.
 
 ---
+
+
+---
+
+# Frontend Setup
+
+This section explains how to set up and run the React frontend for the Real Estate Analysis project.
+The frontend is built with **React**, **Recharts**, and **Bootstrap**.
+
+---
+
+## Requirements
+
+Make sure you have the following installed:
+
+* Node.js (version 16 or above)
+* npm
+
+  
+---
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/Piyush6949/SigmaValue-Assignment
+```
+
+Then navigate into the frontend folder:
+
+```bash
+cd frontend
+```
+
+---
+
+## 2. Install Dependencies
+
+Run the following command to install all required packages:
+
+```bash
+npm install
+```
+
+This will install:
+
+* React
+* Recharts
+* Bootstrap
+
+---
+
+## 3. Start the Development Server
+
+Run:
+
+```bash
+npm run dev
+```
+
+This will start the frontend at:
+
+```
+http://localhost:5173
+```
+
+The app will automatically reload whenever you save changes.
+
+---
+
+## 4. API Configuration
+
+The frontend communicates with the backend through this endpoint:
+
+```
+http://localhost:8000/api/analyze/?area=<location>
+```
+
+Make sure the backend is running before using the frontend.
+
+**Backend Setup**
+
+(Click below to jump directly)
+
+ **[Backend Setup Instructions](#backend-setup)**
+
+
+---
+
+
+
+
