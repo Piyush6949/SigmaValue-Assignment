@@ -77,13 +77,13 @@ http://127.0.0.1:8000/
 The main API endpoint for analysis is:
 
 ```
-GET /api/analyze/?location=<LocationName>
+GET /api/analyze/?area=<AreaName>
 ```
 
 Example:
 
 ```
-http://127.0.0.1:8000/api/analyze/?location=Aundh
+http://127.0.0.1:8000/api/analyze/?area=Aundh
 ```
 
 Response includes:
