@@ -20,7 +20,7 @@ function App() {
   const handleAnalyze = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/analyze/?area=" + encodeURIComponent(query)
+        "https://realestate-analysis.onrender.com/api/analyze/?area=" + encodeURIComponent(query)
       );
       const result = await response.json();
 
