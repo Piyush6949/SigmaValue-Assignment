@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-g7sdrr&e-nml7o!-oejdlzagsfy8(1xnns=lc01^^^7dp!2e%i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['realestate-analysis.onrender.com']
 
 
 # Application definition
