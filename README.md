@@ -1,3 +1,26 @@
+# About the Project
+
+This project is a **Real Estate Locality Analysis Tool** built using **Django (backend)** and **React (frontend)**.
+It allows users to enter any locality name (such as *Aundh*, *Akurdi*, *Ambegaon Budruk*, etc.) and instantly get:
+
+* A natural language summary of that locality’s real estate performance
+* A price trend chart (year-wise)
+* A demand trend chart (units sold per year)
+* A detailed, filterable table of all records for that locality
+
+The backend processes a structured real estate dataset from Excel using **Pandas**, filters it based on the user’s query, calculates annual trends, and returns structured JSON to the frontend.
+The frontend visualizes this data using **Recharts** for charts and provides a clean UI for interaction.
+
+This project demonstrates:
+
+* Backend data processing using Python
+* REST API development using Django REST Framework
+* Real-time data visualization in React
+* Error handling for invalid inputs
+* Clean separation between backend and frontend
+
+
+---
 
 # Backend Setup
 
