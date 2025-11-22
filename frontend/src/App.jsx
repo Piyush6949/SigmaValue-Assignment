@@ -1,6 +1,13 @@
 import { useState } from "react";
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from "recharts";
-
+import {
+  LineChart,
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+} from "recharts";
 
 function App() {
   const [query, setQuery] = useState("");
@@ -10,29 +17,27 @@ function App() {
   const [error, setError] = useState("");
   const [tableData, setTableData] = useState([]);
 
-
   const handleAnalyze = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/analyze/?area=" + query);
+      const response = await fetch(
+        "http://localhost:8000/api/analyze/?area=" + query
+      );
       const result = await response.json();
 
       if (result.error) {
-        // Reset UI
         setSummary("");
         setPt([]);
         setDemand([]);
-        setError(result.error);
         setTableData([]);
+        setError(result.error);
         return;
       }
 
-      // Clear error
       setError("");
       setSummary(result.summary);
       setPt(result.price_trend);
       setDemand(result.demand_trend);
       setTableData(result.table);
-
     } catch (err) {
       setError("Something went wrong. Please try again.");
       setSummary("");
@@ -41,119 +46,118 @@ function App() {
     }
   };
 
-
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Real Estate Analysis</h2>
+    <div className="container-fluid py-4 bg-dark text-light" style={{ minHeight: "100vh" }}>
+      <h2 className="text-center mb-4 text-warning">Real Estate Analysis</h2>
 
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Enter location (e.g., Aundh)"
-      />
-      <button onClick={handleAnalyze}>Analyze</button>
+      {/* Input + Button */}
+      <div className="d-flex gap-2 mb-3">
+        <input
+          type="text"
+          className="form-control bg-secondary text-light"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Enter location (e.g., Aundh)"
+        />
+        <button className="btn btn-warning" onClick={handleAnalyze}>
+          Analyze
+        </button>
+      </div>
 
+      {/* Error */}
       {error.length > 0 && (
-        <div style={{ color: "red", marginTop: "10px" }}>
-          {error}
-        </div>
+        <div className="alert alert-danger py-2">{error}</div>
       )}
 
-
+      {/* Summary */}
       {summary && (
-        <div style={{ marginTop: "20px", padding: "10px", border: "1px solid #ccc" }}>
-          <h3>Summary</h3>
-          <p>{summary}</p>
+        <div className="card bg-secondary text-light mb-4">
+          <div className="card-body">
+            <h4 className="card-title text-warning">Summary</h4>
+            <p className="card-text">{summary}</p>
+          </div>
         </div>
       )}
 
-
+      {/* Price Trend */}
       {price_trend.length > 0 && (
-        <div className="mt-4">
-          <h4>Price Trend</h4>
+        <div className="mb-5">
+          <h4 className="text-warning">Price Trend</h4>
           <LineChart
-            width={600}
+            width={700}
             height={300}
             data={price_trend}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           >
-            <CartesianGrid stroke="#ccc" />
-            <XAxis dataKey="year" />
-            <YAxis tickFormatter={(value) => (value / 10000000).toFixed(1) + " Cr"} />
-            <Tooltip />
+            <CartesianGrid stroke="#555" />
+            <XAxis tick={{ fill: "#fff" }} dataKey="year" />
+            <YAxis
+              tick={{ fill: "#fff" }}
+              tickFormatter={(value) => (value / 10000000).toFixed(1) + " Cr"}
+            />
+            <Tooltip
+              contentStyle={{ backgroundColor: "#222", border: "1px solid #555" }}
+              itemStyle={{ color: "#fff" }}
+            />
             <Legend />
-            <Line type="monotone" dataKey="total_sales - igr" stroke="#8884d8" />
+            <Line type="monotone" dataKey="total_sales - igr" stroke="#f1c40f" />
           </LineChart>
         </div>
       )}
 
-
+      {/* Demand Trend */}
       {demandTrend.length > 0 && (
-        <div className="mt-4">
-          <h4>Demand Trend</h4>
-
+        <div className="mb-5">
+          <h4 className="text-warning">Demand Trend</h4>
           <LineChart
-            width={600}
+            width={700}
             height={300}
             data={demandTrend}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           >
-            <CartesianGrid stroke="#ccc" />
-            <XAxis dataKey="year" />
-            <YAxis />
-            <Tooltip />
+            <CartesianGrid stroke="#555" />
+            <XAxis tick={{ fill: "#fff" }} dataKey="year" />
+            <YAxis tick={{ fill: "#fff" }} />
+            <Tooltip
+              contentStyle={{ backgroundColor: "#222", border: "1px solid #555" }}
+              itemStyle={{ color: "#fff" }}
+            />
             <Legend />
-            <Line type="monotone" dataKey="total sold - igr" stroke="#82ca9d" />
+            <Line type="monotone" dataKey="total sold - igr" stroke="#2ecc71" />
           </LineChart>
         </div>
       )}
 
+      {/* Table */}
       {tableData.length > 0 && (
-        <div style={{ marginTop: "30px" }}>
-          <h4>Data Table</h4>
-          <table
-            style={{
-              width: "90%",
-              borderCollapse: "collapse",
-              marginTop: "10px",
-              background: "#1e1e1e",
-              color: "white",
-            }}
-          >
-            <thead>
-              <tr>
-                {Object.keys(tableData[0]).map((key) => (
-                  <th
-                    key={key}
-                    style={{
-                      border: "1px solid #555",
-                      padding: "8px",
-                      textTransform: "capitalize",
-                    }}
-                  >
-                    {key}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {tableData.map((row, index) => (
-                <tr key={index}>
-                  {Object.values(row).map((value, i) => (
-                    <td key={i} style={{ border: "1px solid #555", padding: "8px" }}>
-                      {String(value)}
-                    </td>
+        <div className="mb-5">
+          <h4 className="text-warning">Data Table</h4>
+
+          <div className="table-responsive">
+            <table className="table table-dark table-bordered table-striped mt-3">
+              <thead>
+                <tr>
+                  {Object.keys(tableData[0]).map((key) => (
+                    <th key={key} className="text-capitalize">
+                      {key}
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+
+              <tbody>
+                {tableData.map((row, index) => (
+                  <tr key={index}>
+                    {Object.values(row).map((val, i) => (
+                      <td key={i}>{String(val)}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
-
-
-
     </div>
   );
 }
